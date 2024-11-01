@@ -33,6 +33,7 @@ def prepare_input (LinkedHashMap row) {
 
 process STAGE_READS {
     publishDir "${params.stagedir}"
+    container 'public.ecr.aws/o8h2f0o1/bigbacter-base:1.0.0'
 
     input:
     tuple val(id), path(read1, stageAs: "reads/*"), path(read2, stageAs: "reads/*")
@@ -66,6 +67,7 @@ process STAGE_READS {
 
 process PUBLISH_META {
     publishDir "${params.outdir}", mode: 'copy'
+    container 'public.ecr.aws/o8h2f0o1/bigbacter-base:1.0.0'
 
     input:
     path meta
