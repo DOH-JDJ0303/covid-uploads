@@ -26,7 +26,7 @@ def prepare_input (LinkedHashMap row) {
     if( ! id ==~ /WA-PHL-\d{6}$/ ){ exit 1, "ERROR: ${id} does not look like a WA PHL ID." }
 
     // create output
-    result = [ accession: accession, id: id, file(read1): read1, read2: file(read2) ]
+    result = [ accession: accession, id: id, read1: file(read1), read2: file(read2) ]
 
     return result
 }
