@@ -7,8 +7,8 @@ def prepare_input (LinkedHashMap row) {
     // define inputs
     accession = row.BioSample_accession
     id        = row.sample_id
-    read1     = file(row.read1_dehosted)
-    read2     = file(row.read2_dehosted)
+    read1     = row.read1_dehosted
+    read2     = row.read2_dehosted
 
 
     // check for required inputs
@@ -18,15 +18,15 @@ def prepare_input (LinkedHashMap row) {
     if( ! read2     ){ exit 1, "ERROR: 'read2_dehosted' missing for ${row}"      }
 
     // check that read files exist
-    if( ! read1.exists() ){ exit 1, "ERROR: ${read1} does not exist!" }
-    if( ! read2.exists() ){ exit 1, "ERROR: ${read2} does not exist!" }
+    if( ! file(read1).exists() ){ exit 1, "ERROR: ${read1} does not exist!" }
+    if( ! file(read2).exists() ){ exit 1, "ERROR: ${read2} does not exist!" }
 
     // check that accession and id look right
     if(  ! accession ==~ /^SAMN\d{8}$/ ){ exit 1, "ERROR: ${accession} does not look like a NCBI BioSample accession." }
     if( ! id ==~ /WA-PHL-\d{6}$/ ){ exit 1, "ERROR: ${id} does not look like a WA PHL ID." }
 
     // create output
-    result = [ accession: accession, id: id, read1: read1, read2: read2 ]
+    result = [ accession: accession, id: id, file(read1): read1, read2: file(read2) ]
 
     return result
 }
