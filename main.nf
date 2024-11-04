@@ -96,9 +96,9 @@ workflow {
         .map{ it -> [ it.id, it ] }
         .join( STAGE_READS.out.sequencer, by: 0 )
         .map{ id, it, sequencer -> it + [sequencer: sequencer] }
-        .map{ it -> "${it.accession},${it.id},Baseline surveillance (random sampling) of severe acute respiratory syndrome coronavirus 2,WGS,VIRAL RNA,PCR,paired,ILLUMINA,${it.sequencer},Whole genome sequencing (tiled-amplicon) of severe acute respiratory syndrome coronavirus 2,fastq,${it.id}_R1.fastq.gz,${it.id}_R2.fastq.gz" }
+        .map{ it -> "${it.accession}\t${it.id}\tBaseline surveillance (random sampling) of severe acute respiratory syndrome coronavirus 2\tWGS\tVIRAL RNA\tPCR\tpaired\tILLUMINA\t${it.sequencer}\tWhole genome sequencing (tiled-amplicon) of severe acute respiratory syndrome coronavirus 2\tfastq\t${it.id}_R1.fastq.gz\t${it.id}_R2.fastq.gz" }
         .set{ ch_meta }
-    Channel.of("biosample_accession,library_ID,title,library_strategy,library_source,library_selection,library_layout,platform,instrument_model,design_description,file_type,filename,filename2")
+    Channel.of("biosample_accession,library_ID\ttitle\tlibrary_strategy\tlibrary_source\tlibrary_selection\tlibrary_layout\tplatform\tinstrument_model\tdesign_description\tfile_type\tfilename\tfilename2")
         .concat( ch_meta )
         .collectFile(name: "sra_metadata.csv", sort: 'index', newLine: true)
         .set{ ch_meta }
